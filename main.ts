@@ -15,8 +15,6 @@ server.use(cors({
 server.use('/projects', projectRouter)
 server.use('/employees', employeeRouter)
 
-
-AppDataSource.initialize()
 async function createTestEmployee(){
     if((await AppDataSource.getRepository(Employee).find()).length == 0){
         const employee = new Employee();
@@ -27,7 +25,8 @@ async function createTestEmployee(){
         await AppDataSource.getRepository(Employee).save(employee)
     }
 }
-createTestEmployee()
+
+AppDataSource.initialize().then(()=>createTestEmployee())
 
 server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`)
