@@ -17,6 +17,17 @@ server.use('/employees', employeeRouter)
 
 
 AppDataSource.initialize()
+async function createTestEmployee(){
+    if((await AppDataSource.getRepository(Employee).find()).length == 0){
+        const employee = new Employee();
+        employee.id = '2deb7cb0-55d0-423e-b193-a45d1546d708';
+        employee.name = 'Денис';
+        employee.position = 'Senior Ionic Engineer';
+
+        await AppDataSource.getRepository(Employee).save(employee)
+    }
+}
+createTestEmployee()
 
 server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`)
