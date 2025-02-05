@@ -2,6 +2,7 @@ import { DataSource } from "typeorm";
 import { Employee } from "./models/domain/employee";
 import { Project } from "./models/domain/project";
 import { Task } from "./models/domain/task";
+import { User } from "./models/domain/user";
 
 export const AppDataSource = new DataSource({
     type: 'sqlite',
@@ -11,7 +12,8 @@ export const AppDataSource = new DataSource({
     entities: [
         Employee,
         Task,
-        Project
+        Project,
+        User
     ],
     migrations: [],
     subscribers: [],

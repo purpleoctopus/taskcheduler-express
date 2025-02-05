@@ -3,15 +3,15 @@ import { Employee } from "../models/domain/employee";
 import { AppDataSource } from "../db-source";
 import { CreateEmployeeDTO } from "../models/dto/create-employee.dto";
 
-export const router = Router()
+export const employeeRouter = Router()
 
-router.get('/', async (req: Request, res: Response<Employee[]>) => {
+employeeRouter.get('/', async (req: Request, res: Response<Employee[]>) => {
     const repo = AppDataSource.getRepository(Employee)
     const data = await repo.find()
     res.send(data)
 })
 
-router.post('/', async (req: Request, res: Response) => {
+employeeRouter.post('/', async (req: Request, res: Response) => {
     const dto = req.body as CreateEmployeeDTO;
 
     if (typeof dto.name === 'string' && typeof dto.position === 'string') {

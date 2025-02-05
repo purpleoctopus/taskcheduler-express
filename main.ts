@@ -1,10 +1,13 @@
 import express from 'express';
-import { router as projectRouter } from './routes/project.router';
-import {  router as employeeRouter } from './routes/employee.router';
+import { projectRouter as projectRouter } from './routes/project.router';
+import {  employeeRouter as employeeRouter } from './routes/employee.router';
 import cors from 'cors'
 import { AppDataSource } from './db-source';
 import { Employee } from './models/domain/employee';
+import dotenv from 'dotenv'
+import { authRouter } from './routes/auth.router';
 
+dotenv.config()
 const PORT = 9999;
 const server = express();
 
@@ -14,6 +17,7 @@ server.use(cors({
 }))
 server.use('/projects', projectRouter)
 server.use('/employees', employeeRouter)
+server.use('/auth', authRouter)
 
 async function createTestEmployee(){
     if((await AppDataSource.getRepository(Employee).find()).length == 0){
