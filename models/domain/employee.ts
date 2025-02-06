@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from "typeorm";
+import { User } from "./user";
 
 @Entity()
 export class Employee {
@@ -10,4 +11,7 @@ export class Employee {
 
     @Column('text')
     position!: string;
+
+    @OneToOne(()=>User, (user)=>user.employee)
+    user!: User
 }

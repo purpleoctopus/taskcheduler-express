@@ -4,6 +4,5 @@ export enum ColorTheme{
 
 export interface CreateProjectDTO{
     name: string,
-    ownerId: string,
     colortheme?: ColorTheme
 }

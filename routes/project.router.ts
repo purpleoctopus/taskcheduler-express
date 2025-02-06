@@ -2,8 +2,9 @@ import { Router, Request, Response} from "express";
 import { CreateProjectDTO } from "../models/dto/create-project.dto";
 import { AppDataSource } from "../db-source";
 import { Project } from "../models/domain/project";
-import { Employee } from "../models/domain/employee";
 import { validateToken } from "../jwtProvider";
+import { AuthRequest } from "../models/authRequest";
+import { User } from "../models/domain/user";
 
 export const projectRouter = Router()
 
@@ -13,20 +14,20 @@ projectRouter.get('/', validateToken, async (req: Request, res: Response<Project
     res.send(data)
 })
 
-projectRouter.post('/', validateToken, async (req: Request, res: Response) => {
+projectRouter.post('/', validateToken, async (req: AuthRequest, res: Response) => {
     const dto = req.body as CreateProjectDTO;
     
-        if (typeof dto.name === 'string' && typeof dto.ownerId === 'string') {
+        if (typeof dto.name === 'string' && dto.name.length >= 2) {
             const projectRepo = AppDataSource.getRepository(Project);
-            const employeeRepo = AppDataSource.getRepository(Employee);
+            const userRepo = AppDataSource.getRepository(User);
 
-            const employee = await employeeRepo.findOne({where: {id: dto.ownerId}})
+
+            if(!req.user) {res.status(400).json({ error: 'Bad request' }); return;}
+            const user = await userRepo.findOne({where: {id: req.user.id}, relations: ['employee']})
             
-            const project = new Project();
-            project.name = dto.name;
-            project.colortheme = dto.colortheme
-
-            if(employee) project.owner = employee
+            const project = projectRepo.create({name: dto.name, colortheme: dto.colortheme})
+            
+            if(user) project.owner = user.employee
             else{
                 res.status(404).json({ error: 'Employee does not exist' })
                 return
