@@ -28,7 +28,7 @@ authRouter.post('/register', async (req: Request, res: Response) => {
 
         res.status(200).json({message: 'Користувача зареєстровано '})
     }catch(er){
-      res.status(500).json({error: 'Помилка при реєстрації '})
+      res.status(500).json({error: 'Помилка при реєстрації '});
     }
 })
 

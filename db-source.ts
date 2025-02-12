@@ -3,6 +3,7 @@ import { Employee } from "./models/domain/employee";
 import { Project } from "./models/domain/project";
 import { Task } from "./models/domain/task";
 import { User } from "./models/domain/user";
+import { Invite } from "./models/domain/invite";
 
 export const AppDataSource = new DataSource({
     type: 'sqlite',
@@ -13,7 +14,8 @@ export const AppDataSource = new DataSource({
         Employee,
         Task,
         Project,
-        User
+        User,
+        Invite
     ],
     migrations: [],
     subscribers: [],

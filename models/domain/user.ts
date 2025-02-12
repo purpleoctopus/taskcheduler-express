@@ -15,7 +15,7 @@ export class User {
     @Column('text')
     email!: string;
 
-    @OneToOne(() => Employee, (employee)=>employee.user, {nullable: false, cascade: true})
+    @OneToOne(() => Employee, {nullable: false, cascade: true})
     @JoinColumn()
     employee!: Employee;
 }

@@ -6,22 +6,28 @@ import { AppDataSource } from './db-source';
 import dotenv from 'dotenv'
 import { authRouter } from './routes/auth.router';
 import { userRouter } from './routes/user.router';
+import { inviteRouter } from './routes/invite.router';
+import { notificationRouter } from './routes/notification.router';
 
 dotenv.config()
 const PORT = 9999;
-const server = express();
+const app = express();
 
-server.use(express.json());
-server.use(cors({
+export const queue:Record<string, boolean>= {}
+
+app.use(express.json());
+app.use(cors({
     origin: '*'
 }))
-server.use('/projects', projectRouter)
-server.use('/employees', employeeRouter)
-server.use('/auth', authRouter)
-server.use('/users', userRouter)
+app.use('/projects', projectRouter)
+app.use('/employees', employeeRouter)
+app.use('/auth', authRouter)
+app.use('/users', userRouter)
+app.use('/invites', inviteRouter)
+app.use('/notifications', notificationRouter)
 
 AppDataSource.initialize()
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`)
 })

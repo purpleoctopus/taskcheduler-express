@@ -11,7 +11,4 @@ export class Employee {
 
     @Column('text')
     position!: string;
-
-    @OneToOne(()=>User, (user)=>user.employee)
-    user!: User
 }
